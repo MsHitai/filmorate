@@ -46,9 +46,9 @@ class FilmValidationTest {
     @Test
     @DisplayName("Если сделать слишком длинное описание, будет ошибка валидации")
     public void testValidationWhenDescriptionTooLongThenThrowException() {
-        Film film = new Film(0, "catzilla", "film about a great white cat, where she walks around " +
-                "the New York city and crushes all buildings. She is very big. Really, like a godzilla. Then, a dog " +
-                "comes in the picture and here begins all the fun. This is very good, really, try it!",
+        Film film = new Film(0, "catzilla", "film about a great white cat, where she walks around "
+                + "the New York city and crushes all buildings. She is very big. Really, like a godzilla. Then, a dog "
+                + "comes in the picture and here begins all the fun. This is very good, really, try it!",
                 LocalDate.of(2023, 1, 10), 120, 10);
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertFalse(violations.isEmpty());

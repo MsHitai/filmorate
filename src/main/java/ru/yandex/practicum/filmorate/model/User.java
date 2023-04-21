@@ -28,7 +28,7 @@ public class User {
         this.id = id;
         this.email = email;
         this.login = login;
-        if(name == null || name.isBlank() || name.isEmpty()) {
+        if (name == null || name.isBlank() || name.isEmpty()) {
             this.name = login;
         } else {
             this.name = name;

@@ -6,7 +6,6 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.Valid;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class UserController {
     @PutMapping()
     public User updateFilm(@Valid @RequestBody User user) {
         log.debug("Получен запрос PUT на обновление пользователя {}", user.toString());
-        if(!users.containsKey(user.getId())) {
+        if (!users.containsKey(user.getId())) {
             throw new ValidationException("Пользователя с таким идентификатором нет в базе");
         }
         users.put(user.getId(), user);

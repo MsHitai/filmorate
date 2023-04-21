@@ -6,7 +6,6 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import javax.validation.Valid;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class FilmController {
     @PutMapping()
     public Film updateFilm(@Valid @RequestBody Film film) {
         log.debug("Получен запрос PUT на обновление фильма {}", film.toString());
-        if(!films.containsKey(film.getId())) {
+        if (!films.containsKey(film.getId())) {
             throw new ValidationException("Фильма с таким идентификатором нет в базе");
         }
         films.put(film.getId(), film);

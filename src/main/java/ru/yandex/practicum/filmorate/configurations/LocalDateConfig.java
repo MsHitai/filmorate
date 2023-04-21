@@ -1,18 +1,18 @@
 package ru.yandex.practicum.filmorate.configurations;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Configuration
-public class LocalDateConfig  {
+public class LocalDateConfig {
 
     @Bean
     @Primary

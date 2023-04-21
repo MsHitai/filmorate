@@ -35,8 +35,9 @@ public class FilmController {
     @PutMapping()
     public Film updateFilm(@Valid @RequestBody Film film) {
         log.debug("Получен запрос PUT на обновление фильма {}", film.toString());
-        if(!films.containsKey(film.getId())) {
+        if (!films.containsKey(film.getId())) {
             throw new ValidationException("Фильма с таким идентификатором нет в базе");
+
         }
         films.put(film.getId(), film);
 

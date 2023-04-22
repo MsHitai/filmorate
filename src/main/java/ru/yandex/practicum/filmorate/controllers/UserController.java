@@ -27,7 +27,6 @@ public class UserController {
     @PostMapping()
     public User addUser(@Valid @RequestBody User user) {
         log.debug("Получен запрос POST на создание пользователя {}", user.toString());
-        //String name = user.getName();
         user.setId(++id);
         users.put(user.getId(), user);
         return user;

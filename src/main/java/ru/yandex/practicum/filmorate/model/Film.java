@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.validators.ReleaseDate;
 
@@ -9,9 +10,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Data
+@Builder
 public class Film {
 
     private int id;
@@ -36,18 +37,5 @@ public class Film {
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.rate = rate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Film film = (Film) o;
-        return id == film.id && duration == film.duration && rate == film.rate && name.equals(film.name) && Objects.equals(description, film.description) && releaseDate.equals(film.releaseDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, description, releaseDate, duration, rate);
     }
 }

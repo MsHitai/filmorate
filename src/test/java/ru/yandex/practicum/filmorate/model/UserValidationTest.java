@@ -28,8 +28,12 @@ class UserValidationTest {
     @Test
     @DisplayName("Можно успешно создать пользователя с правильными полями")
     public void testUserCreateSuccess() {
-        User user = new User(0, "mambaleilo@mail.ru", "leilo", "vasya",
-                LocalDate.of(2000, 10, 10));
+        User user = User.builder()
+                .name("vasya")
+                .login("leilo")
+                .birthday(LocalDate.of(2000, 10, 10))
+                .email("mambaleilo@mail.ru")
+                .build();
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertTrue(violations.isEmpty());
     }

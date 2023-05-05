@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.util.*;
 
 @Data
 @Builder
@@ -25,6 +27,9 @@ public class User {
     @PastOrPresent(message = "День рождения указан неверно!")
     private LocalDate birthday;
 
+    @JsonIgnore
+    private final Set<Integer> friends = new HashSet<>();
+
     @JsonCreator()
     public User(@JsonProperty("id") int id, @JsonProperty("email") @Email @NotBlank String email, @JsonProperty("login")
     @NotBlank String login, @JsonProperty("name") String name, @JsonProperty("birthday") LocalDate birthday) {
@@ -39,4 +44,7 @@ public class User {
         this.birthday = birthday;
     }
 
+    public void addFriends(int id) {
+        friends.add(id);
+    }
 }

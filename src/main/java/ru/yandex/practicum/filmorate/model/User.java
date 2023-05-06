@@ -11,7 +11,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -28,7 +29,7 @@ public class User {
     private LocalDate birthday;
 
     @JsonIgnore
-    private final Set<Integer> friends = new HashSet<>();
+    private final Set<Integer> friends = new LinkedHashSet<>();
 
     @JsonCreator()
     public User(@JsonProperty("id") int id, @JsonProperty("email") @Email @NotBlank String email, @JsonProperty("login")

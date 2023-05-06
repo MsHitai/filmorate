@@ -25,13 +25,9 @@ public class FilmService {
     public List<Film> findPopularFilms(int size) {
         Collection<Film> likes = filmStorage.findAll();
         return likes.stream()
-                .sorted(this::compare)
+                .sorted((f1, f2) -> Integer.compare(f2.getLikes().size(), f1.getLikes().size()))
                 .limit(size)
                 .collect(Collectors.toList());
-    }
-
-    private int compare(Film f1, Film f2) {
-        return Integer.compare(f1.getLikes().size(), f2.getLikes().size());
     }
 
     public void deleteLike(int filmId, int userId) {

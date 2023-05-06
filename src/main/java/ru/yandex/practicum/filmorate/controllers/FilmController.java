@@ -33,7 +33,7 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film findById(@PathVariable (required = false) String id) {
+    public Film findById(@PathVariable(required = false) String id) {
         if (id != null) {
             int number = Integer.parseInt(id);
             Film film = filmStorage.findById(number);
@@ -70,15 +70,20 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public void userAddLike (@PathVariable("id") int id, @PathVariable("userId") int userId) {
+    public void userAddLike(@PathVariable("id") int id, @PathVariable("userId") int userId) {
         log.debug("Получен запрос на добавление лайка от пользователя по id {}", userId);
+        Film film = filmStorage.findById(id);
+        if (film == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильма с таким идентификатором нет в базе");
+
+        }
         filmService.addLike(id, userId);
     }
 
     @DeleteMapping("/{id}")
     public void deleteFilm(@PathVariable(required = false) Integer id) {
         log.debug("Получен запрос DELETE");
-        if(id == null) {
+        if (id == null) {
             filmStorage.deleteAll();
         } else {
             Film film = filmStorage.deleteFilm(id);

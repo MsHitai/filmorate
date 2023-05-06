@@ -9,9 +9,11 @@ import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -47,24 +49,26 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}/friends") // todo why user #2 gets a friend #3?
-    public Set<User> findFriends(@PathVariable("id") int id) {
+    @GetMapping("/{id}/friends")
+    public List<User> findFriends(@PathVariable("id") int id) {
         Set<Integer> friendsIds = userService.getFriends(id);
-        Set<User> friends = new HashSet<>();
+        List<User> friends = new ArrayList<>();
         for (Integer idNum : friendsIds) {
             User user = userStorage.findById(idNum);
             friends.add(user);
         }
-        return friends;
+        return friends.stream()
+                .sorted((o1, o2) -> Integer.compare(o1.getId(), o2.getId()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Set<User> findCommonFriends(@PathVariable("id") int id, @PathVariable("otherId") int otherId) {
+    public List<User> findCommonFriends(@PathVariable("id") int id, @PathVariable("otherId") int otherId) {
         Set<Integer> friendsOtherIds = userService.getFriends(otherId);
 
         Set<Integer> friendsIds = userService.getFriends(id);
 
-        Set<User> friends = new HashSet<>();
+        List<User> friends = new ArrayList<>();
 
         for (Integer friendsOtherId : friendsOtherIds) {
             if (friendsIds.contains(friendsOtherId)) {
@@ -110,7 +114,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable(required = false) Integer id) {
         log.debug("Получен запрос DELETE для пользователя по id {}", id);
-        if(id == null) {
+        if (id == null) {
             userStorage.deleteAll();
         } else {
             User user = userStorage.deleteUser(id);

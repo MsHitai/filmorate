@@ -35,7 +35,27 @@ public class FilmService {
         film.getLikes().remove(userId);
     }
 
-    public FilmStorage getFilmStorage() {
-        return filmStorage;
+    public Film addFilm(Film film) {
+        return filmStorage.addFilm(film);
+    }
+
+    public Film deleteFilm(int id) {
+        return filmStorage.deleteFilm(id);
+    }
+
+    public void deleteAll() {
+        filmStorage.deleteAll();
+    }
+
+    public Film updateFilm(Film film) {
+        return filmStorage.updateFilm(film);
+    }
+
+    public Collection<Film> findAll() {
+        return filmStorage.findAll();
+    }
+
+    public Film findById(int id) {
+        return filmStorage.findById(id);
     }
 }

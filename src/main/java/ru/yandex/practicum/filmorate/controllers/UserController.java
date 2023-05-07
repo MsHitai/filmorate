@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -20,25 +19,22 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserController {
 
-    private final UserStorage userStorage;
-
     private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
-        this.userStorage = this.userService.getUserStorage();
     }
 
     @GetMapping()
     public Collection<User> findAll() {
-        return userStorage.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
     public User findById(@PathVariable(required = false) String id) {
         if (id != null) {
             int number = Integer.parseInt(id);
-            User user = userStorage.findById(number);
+            User user = userService.findById(number);
             if (user == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь по этому id не найден.");
             } else {
@@ -54,7 +50,7 @@ public class UserController {
         Set<Integer> friendsIds = userService.getFriends(id);
         List<User> friends = new ArrayList<>();
         for (Integer idNum : friendsIds) {
-            User user = userStorage.findById(idNum);
+            User user = userService.findById(idNum);
             friends.add(user);
         }
         return friends.stream()
@@ -72,7 +68,7 @@ public class UserController {
 
         for (Integer friendsOtherId : friendsOtherIds) {
             if (friendsIds.contains(friendsOtherId)) {
-                User user = userStorage.findById(friendsOtherId);
+                User user = userService.findById(friendsOtherId);
                 friends.add(user);
             }
         }
@@ -84,13 +80,13 @@ public class UserController {
     @PostMapping()
     public User addUser(@Valid @RequestBody User user) {
         log.debug("Получен запрос POST на создание пользователя {}", user.toString());
-        return userStorage.addUser(user);
+        return userService.addUser(user);
     }
 
     @PutMapping()
     public User updateUser(@Valid @RequestBody User user) {
         log.debug("Получен запрос PUT на обновление пользователя {}", user.toString());
-        user = userStorage.updateUser(user);
+        user = userService.updateUser(user);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователя с таким идентификатором нет в базе");
         }
@@ -100,11 +96,11 @@ public class UserController {
     @PutMapping("/{id}/friends/{friendId}")
     public void addFriend(@PathVariable("id") int id, @PathVariable("friendId") int friendId) {
         log.debug("Получен запрос PUT на добавление друга по id {}", friendId);
-        User user = userStorage.findById(friendId);
+        User user = userService.findById(friendId);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователя с таким идентификатором нет в базе");
         }
-        User user1 = userStorage.findById(id);
+        User user1 = userService.findById(id);
         if (user1 == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователя с таким идентификатором нет в базе");
         }
@@ -115,9 +111,9 @@ public class UserController {
     public void deleteUser(@PathVariable(required = false) Integer id) {
         log.debug("Получен запрос DELETE для пользователя по id {}", id);
         if (id == null) {
-            userStorage.deleteAll();
+            userService.deleteAll();
         } else {
-            User user = userStorage.deleteUser(id);
+            User user = userService.deleteUser(id);
             if (user == null) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователя с таким идентификатором нет в базе");
             }

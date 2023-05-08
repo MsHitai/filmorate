@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
@@ -32,6 +33,9 @@ public class FilmService {
 
     public void deleteLike(int filmId, int userId) {
         Film film = filmStorage.findById(filmId);
+        if (!film.getLikes().contains(userId)) {
+            throw new DataNotFoundException("Пользователь с этим ид не ставил лайк этому фильму");
+        }
         film.getLikes().remove(userId);
     }
 

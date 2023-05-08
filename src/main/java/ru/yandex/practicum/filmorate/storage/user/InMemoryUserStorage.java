@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exceptions.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
@@ -23,6 +24,10 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User deleteUser(int id) {
+        User user = users.get(id);
+        if (user == null) {
+            throw new DataNotFoundException("Пользователя с таким идентификатором нет в базе");
+        }
         return users.remove(id);
     }
 
@@ -34,7 +39,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User updateUser(User user) {
         if (!users.containsKey(user.getId())) {
-            return null;
+            throw new DataNotFoundException("Пользователя с таким идентификатором нет в базе");
         }
         users.put(user.getId(), user);
         return user;
@@ -47,6 +52,10 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User findById(int id) {
-        return users.get(id);
+        User user = users.get(id);
+        if (user == null) {
+            throw new DataNotFoundException("Пользователя с таким id нет в базе " + id);
+        }
+        return user;
     }
 }

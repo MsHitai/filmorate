@@ -1,9 +1,7 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
@@ -29,18 +27,8 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film findById(@PathVariable(required = false) String id) {
-        if (id != null) {
-            int number = Integer.parseInt(id);
-            Film film = filmService.findById(number);
-            if (film == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            } else {
-                return film;
-            }
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+    public Film findById(@PathVariable(required = false) int id) {
+        return filmService.findById(id);
     }
 
     @GetMapping("/popular")
@@ -57,22 +45,13 @@ public class FilmController {
     @PutMapping()
     public Film updateFilm(@Valid @RequestBody Film film) {
         log.debug("Получен запрос PUT на обновление фильма {}", film.toString());
-        film = filmService.updateFilm(film);
-        if (film == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильма с таким идентификатором нет в базе");
-
-        }
-        return film;
+        return filmService.updateFilm(film);
     }
 
     @PutMapping("/{id}/like/{userId}")
     public void userAddLike(@PathVariable("id") int id, @PathVariable("userId") int userId) {
         log.debug("Получен запрос на добавление лайка от пользователя по id {}", userId);
-        Film film = filmService.findById(id);
-        if (film == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильма с таким идентификатором нет в базе");
-
-        }
+        filmService.findById(id); // в этом случае storage пробросит исключение если фильм не найден
         filmService.addLike(id, userId);
     }
 
@@ -82,20 +61,13 @@ public class FilmController {
         if (id == null) {
             filmService.deleteAll();
         } else {
-            Film film = filmService.deleteFilm(id);
-            if (film == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с этим идентификатором не найден");
-            }
+            filmService.deleteFilm(id);
         }
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     public void deleteLike(@PathVariable("id") int id, @PathVariable("userId") int userId) {
         log.debug("Получен запрос на удаление лайка от пользователя по id {}", userId);
-        Film film = filmService.findById(id);
-        if (!film.getLikes().contains(userId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с этим ид не ставил лайк этому фильму");
-        }
         filmService.deleteLike(id, userId);
     }
 }

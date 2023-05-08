@@ -1,9 +1,11 @@
 package ru.yandex.practicum.filmorate.exceptions;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@ControllerAdvice
 public class HandlerException {
 
     @ExceptionHandler
@@ -17,6 +19,12 @@ public class HandlerException {
     public ErrorResponse handleNumberFormatException(final NumberFormatException e) {
         return new ErrorResponse("error", "Возможно вместо цифры была передана буква. " +
                 "Попробуйте повторить запрос.");
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleNotFoundException(final DataNotFoundException e) {
+        return new ErrorResponse("error", e.getMessage());
     }
 
     static class ErrorResponse {

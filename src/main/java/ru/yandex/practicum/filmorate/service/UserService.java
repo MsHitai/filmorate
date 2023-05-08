@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -18,14 +18,38 @@ public class UserService {
 
     public void addFriend(int id, int friendId) {
         User user = userStorage.findById(id);
-        user.addFriends(friendId);
         User user1 = userStorage.findById(friendId);
+        user.addFriends(friendId);
         user1.addFriends(id);
     }
 
-    public Set<Integer> getFriends(int id) {
+    public List<User> getFriends(int id) {
         User user = userStorage.findById(id);
-        return user.getFriends();
+        Set<Integer> friendsIds = user.getFriends();
+        List<User> friends = new ArrayList<>();
+        for (Integer idNum : friendsIds) {
+            User user1 = userStorage.findById(idNum);
+            friends.add(user1);
+        }
+        return friends.stream()
+                .sorted(Comparator.comparingInt(User::getId))
+                .collect(Collectors.toList());
+    }
+
+    public List<User> findCommonFriends(int userId, int otherId) {
+        List<User> friendsOtherIds = getFriends(otherId);
+
+        List<User> friendsIds = getFriends(userId);
+
+        List<User> friends = new ArrayList<>();
+
+        for (User friendsOtherId : friendsOtherIds) {
+            if (friendsIds.contains(friendsOtherId)) {
+                friends.add(friendsOtherId);
+            }
+        }
+
+        return friends;
     }
 
     public void deleteFriend(int id, int friendId) {

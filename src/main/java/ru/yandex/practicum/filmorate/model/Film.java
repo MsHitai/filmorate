@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -25,6 +28,9 @@ public class Film {
     @Positive(message = "Продолжительность не может быть отрицательной!")
     private int duration;
 
+    @JsonIgnore
+    private final Set<Integer> likes = new HashSet<>();
+
     private int rate;
 
     @JsonCreator
@@ -37,5 +43,9 @@ public class Film {
         this.releaseDate = releaseDate;
         this.duration = duration;
         this.rate = rate;
+    }
+
+    public void addLike(int id) {
+        likes.add(id);
     }
 }

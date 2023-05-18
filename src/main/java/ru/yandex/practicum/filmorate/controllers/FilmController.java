@@ -58,11 +58,7 @@ public class FilmController {
     @DeleteMapping("/{id}")
     public void deleteFilm(@PathVariable(required = false) Integer id) {
         log.debug("Получен запрос DELETE");
-        if (id == null) {
-            filmService.deleteAll();
-        } else {
-            filmService.deleteFilm(id);
-        }
+        filmService.deleteFilm(id);
     }
 
     @DeleteMapping("/{id}/like/{userId}")

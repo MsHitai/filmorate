@@ -62,11 +62,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable(required = false) Integer id) {
         log.debug("Получен запрос DELETE для пользователя по id {}", id);
-        if (id == null) {
-            userService.deleteAll();
-        } else {
-            userService.deleteUser(id);
-        }
+        userService.deleteUser(id);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")

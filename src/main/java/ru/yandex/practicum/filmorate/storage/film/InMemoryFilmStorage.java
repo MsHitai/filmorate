@@ -3,9 +3,12 @@ package ru.yandex.practicum.filmorate.storage.film;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -31,11 +34,6 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public void deleteAll() {
-        films.clear();
-    }
-
-    @Override
     public Film updateFilm(Film film) {
         if (!films.containsKey(film.getId())) {
             throw new DataNotFoundException("Фильма с таким идентификатором нет в базе");
@@ -56,5 +54,40 @@ public class InMemoryFilmStorage implements FilmStorage {
             throw new DataNotFoundException("Id не найден, id = " + id);
         }
         return film;
+    }
+
+    @Override
+    public void addLike(int filmId, int userId) {
+
+    }
+
+    @Override
+    public List<Film> findPopularFilms(int size) {
+        return null;
+    }
+
+    @Override
+    public void deleteLike(int filmId, int userId) {
+
+    }
+
+    @Override
+    public List<Genre> findAllGenres() {
+        return null;
+    }
+
+    @Override
+    public Genre findGenreById(int filmId) {
+        return null;
+    }
+
+    @Override
+    public List<Rating> findAllRatings() {
+        return null;
+    }
+
+    @Override
+    public Rating findRatingById(int id) {
+        return null;
     }
 }

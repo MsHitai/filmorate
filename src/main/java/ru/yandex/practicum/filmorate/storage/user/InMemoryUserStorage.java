@@ -4,9 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.DataNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
@@ -23,6 +21,11 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
+    public void addFriend(int id, int friendId) {
+
+    }
+
+    @Override
     public User deleteUser(int id) {
         User user = users.get(id);
         if (user == null) {
@@ -32,8 +35,8 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public void deleteAll() {
-        users.clear();
+    public Set<User> getFriends(int id) {
+        return null;
     }
 
     @Override
@@ -57,5 +60,15 @@ public class InMemoryUserStorage implements UserStorage {
             throw new DataNotFoundException("Пользователя с таким id нет в базе " + id);
         }
         return user;
+    }
+
+    @Override
+    public List<User> findCommonFriends(int userId, int otherId) {
+        return null;
+    }
+
+    @Override
+    public void deleteFriend(int id, int friendId) {
+
     }
 }

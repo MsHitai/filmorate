@@ -29,7 +29,7 @@ public class User {
     private LocalDate birthday;
 
     @JsonIgnore
-    private final Set<Integer> friends = new LinkedHashSet<>();
+    private Set<Friend> friends = new LinkedHashSet<>();
 
     @JsonCreator()
     public User(@JsonProperty("id") int id, @JsonProperty("email") @Email @NotBlank String email, @JsonProperty("login")
@@ -45,7 +45,12 @@ public class User {
         this.birthday = birthday;
     }
 
-    public void addFriends(int id) {
-        friends.add(id);
+    public User(int id, String email, String login, String name, LocalDate birthday, Set<Friend> friends) {
+        this.id = id;
+        this.email = email;
+        this.login = login;
+        this.name = name;
+        this.birthday = birthday;
+        this.friends = friends;
     }
 }

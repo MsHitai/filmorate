@@ -120,8 +120,8 @@ public class FilmDbStorage implements FilmStorage {
     public List<Film> findPopularFilms(int size) {
         String sql = "SELECT COUNT(USER_ID) AS QUANTITY, F.*  " +
                 "FROM LIKES " +
-                "INNER JOIN FILMS F ON F.FILM_ID = LIKES.FILM_ID " +
-                "GROUP BY LIKES.FILM_ID " +
+                "RIGHT JOIN FILMS F ON F.FILM_ID = LIKES.FILM_ID " +
+                "GROUP BY F.FILM_ID " +
                 "ORDER BY QUANTITY DESC " +
                 "LIMIT ?";
 

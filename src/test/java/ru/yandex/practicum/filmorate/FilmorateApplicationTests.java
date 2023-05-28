@@ -226,20 +226,20 @@ class FilmorateApplicationTests {
         filmStorage.addLike(film.getId(), user.getId());
         filmStorage.addLike(film.getId(), user1.getId());
 
-        assertThat(filmStorage.findPopularFilms(10).size(), is(1));
+        assertThat(filmStorage.findPopularFilms(5).get(0).getId(), is(film.getId()));
     }
 
     @Test // тест удаления лайка
     public void testDeleteLike() {
-        filmStorage.addLike(film.getId(), user.getId());
-        filmStorage.addLike(film.getId(), user1.getId());
+        filmStorage.addLike(film1.getId(), user.getId());
+        filmStorage.addLike(film1.getId(), user1.getId());
 
-        assertThat(filmStorage.findPopularFilms(10).size(), is(1));
+        assertThat(filmStorage.findPopularFilms(5).get(0).getId(), is(film1.getId()));
 
-        filmStorage.deleteLike(film.getId(), user.getId());
-        filmStorage.deleteLike(film.getId(), user1.getId());
+        filmStorage.deleteLike(film1.getId(), user.getId());
+        filmStorage.deleteLike(film1.getId(), user1.getId());
 
-        assertThat(filmStorage.findPopularFilms(10).size(), is(0));
+        assertThat(filmStorage.findPopularFilms(5).get(0).getId(), is(film.getId()));
     }
 
     @Test

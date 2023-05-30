@@ -24,37 +24,43 @@ public class FilmController {
 
     @GetMapping("/films")
     public Collection<Film> findAll() {
-        log.debug("Получен запрос GET");
+        log.debug("Получен запрос GET на получение всех фильмов");
         return filmService.findAll();
     }
 
     @GetMapping("/films/{id}")
     public Film findById(@PathVariable(required = false) int id) {
+        log.debug("Получен запрос GET на получение фильма по id {}", id);
         return filmService.findById(id);
     }
 
     @GetMapping("/films/popular")
     public List<Film> findPopular(@RequestParam(defaultValue = "10", required = false) int count) {
+        log.debug("Получен запрос GET на получение популярных фильмов с ограничением на {} ", count);
         return filmService.findPopularFilms(count);
     }
 
     @GetMapping("/genres")
     public List<Genre> findAllGenres() {
+        log.debug("Получен запрос GET на получение всех жанров");
         return filmService.findAllGenres();
     }
 
     @GetMapping("/genres/{id}")
     public Genre findGenreById(@PathVariable(required = false) int id) {
+        log.debug("Получен запрос GET на получение жанра по id {}", id);
         return filmService.findGenreById(id);
     }
 
     @GetMapping("/mpa")
     public List<Rating> findAllRatings() {
+        log.debug("Получен запрос GET на получения всех рейтингов");
         return filmService.findAllRatings();
     }
 
     @GetMapping("/mpa/{id}")
     public Rating findRatingById(@PathVariable(required = false) int id) {
+        log.debug("Получен запрос GET на получения рейтинга по id {}", id);
         return filmService.findRatingById(id);
     }
 

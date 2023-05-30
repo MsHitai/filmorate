@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
@@ -27,6 +28,8 @@ class FilmorateApplicationTests {
 
     private final UserStorage userStorage;
 
+    private final UserService userService;
+
     private final FilmStorage filmStorage;
 
     private Film film;
@@ -35,8 +38,9 @@ class FilmorateApplicationTests {
     private User user1;
 
     @Autowired
-    FilmorateApplicationTests(UserStorage userStorage, FilmStorage filmStorage) {
+    FilmorateApplicationTests(UserStorage userStorage, UserService userService, FilmStorage filmStorage) {
         this.userStorage = userStorage;
+        this.userService = userService;
         this.filmStorage = filmStorage;
     }
 
@@ -159,7 +163,7 @@ class FilmorateApplicationTests {
         userStorage.addFriend(user1.getId(), user.getId());
         userStorage.addFriend(user2.getId(), user.getId());
 
-        List<User> commonFriend = userStorage.findCommonFriends(user1.getId(), user2.getId());
+        List<User> commonFriend = userService.findCommonFriends(user1.getId(), user2.getId());
 
         assertThat(commonFriend.size(), is(1));
         assertThat(commonFriend.get(0), is(user));

@@ -67,13 +67,8 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public void deleteFriend(int id, int friendId) {
-        findById(id); // может убрать эти две проверки и сразу сделать если result == 0 то ошибка?
-        findById(friendId);
         String sql = "DELETE FROM FRIENDS WHERE FRIEND_ID = ? AND USER_ID = ?";
-        int result = jdbcTemplate.update(sql, friendId, id);
-        if (result == 0) {
-            throw new DataNotFoundException("У пользователя нет друга с этим id");
-        }
+        jdbcTemplate.update(sql, friendId, id);
     }
 
     @Override
@@ -109,23 +104,6 @@ public class UserDbStorage implements UserStorage {
             throw new DataNotFoundException("Пользователя с таким id нет в базе");
         }
         return user;
-    }
-
-    @Override
-    public List<User> findCommonFriends(int userId, int otherId) {
-        Set<User> friendsOtherIds = getFriends(otherId);
-
-        Set<User> friendsIds = getFriends(userId);
-
-        List<User> friends = new ArrayList<>();
-
-        for (User friendsOtherId : friendsOtherIds) {
-            if (friendsIds.contains(friendsOtherId)) {
-                friends.add(friendsOtherId);
-            }
-        }
-
-        return friends;
     }
 
     @Override

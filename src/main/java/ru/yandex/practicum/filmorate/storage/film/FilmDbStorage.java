@@ -48,10 +48,8 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public void addLike(int filmId, int userId) {
-        Film film = findById(filmId); // проверяем на наличие в базе
         String sql = "INSERT INTO LIKES (FILM_ID, USER_ID) VALUES (?, ?)";
         jdbcTemplate.update(sql, filmId, userId);
-        film.setLikes(getUserLikes(filmId)); //обновляем лайки у фильма
     }
 
     @Override
@@ -59,13 +57,11 @@ public class FilmDbStorage implements FilmStorage {
         Film film = findById(id);
         String sql = "DELETE FROM FILMS WHERE FILM_ID = ?";
         jdbcTemplate.update(sql, id);
-        film.setLikes(getUserLikes(id)); //обновляем лайки у фильма
         return film;
     }
 
     @Override
     public void deleteLike(int filmId, int userId) {
-        findById(filmId);
         String sql = "DELETE FROM LIKES WHERE FILM_ID = ? AND USER_ID = ?";
         int result = jdbcTemplate.update(sql, filmId, userId);
         if (result == 0) {
@@ -187,15 +183,9 @@ public class FilmDbStorage implements FilmStorage {
     }
 
     private Set<Integer> getUserLikes(int id) {
-        String sql = "SELECT * FROM LIKES WHERE FILM_ID = ?";
-        List<Like> likes = jdbcTemplate.query(sql, this::likeMapRow, id);
-
-        Set<Integer> usersIds = new HashSet<>();
-
-        for (Like like : likes) {
-            usersIds.add(like.getUserId());
-        }
-        return usersIds;
+        String sql = "SELECT USER_ID FROM LIKES WHERE FILM_ID = ?";
+        List<Integer> userIds = jdbcTemplate.queryForList(sql, Integer.class, id);
+        return new HashSet<>(userIds);
     }
 
     private Film filmMapRow(ResultSet resultSet, int rowNum) throws SQLException {

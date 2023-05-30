@@ -63,11 +63,6 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public List<User> findCommonFriends(int userId, int otherId) {
-        return null;
-    }
-
-    @Override
     public void deleteFriend(int id, int friendId) {
 
     }

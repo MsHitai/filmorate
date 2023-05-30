@@ -18,7 +18,8 @@ public class FilmService {
     }
 
     public void addLike(int filmId, int userId) {
-        filmStorage.addLike(filmId, userId);
+        Film film = findById(filmId);
+        filmStorage.addLike(film.getId(), userId);
     }
 
     public List<Film> findPopularFilms(int size) {
@@ -26,7 +27,8 @@ public class FilmService {
     }
 
     public void deleteLike(int filmId, int userId) {
-        filmStorage.deleteLike(filmId, userId);
+        Film film = findById(filmId);
+        filmStorage.deleteLike(film.getId(), userId);
     }
 
     public Film addFilm(Film film) {

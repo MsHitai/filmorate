@@ -25,8 +25,6 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public void addFriend(int id, int friendId) {
-        findById(id); // есть ли такой пользователь
-        findById(friendId);
         String sql = "INSERT INTO FRIENDS(FRIEND_ID, USER_ID, STATUS) VALUES(?, ?, 'ACCEPTED')";
         jdbcTemplate.update(sql, friendId, id);
     }
@@ -58,11 +56,9 @@ public class UserDbStorage implements UserStorage {
     }
 
     @Override
-    public User deleteUser(int id) {
-        User user = findById(id);
+    public void deleteUser(int id) {
         String sql = "DELETE FROM USERS WHERE USER_ID = ?";
         jdbcTemplate.update(sql, id);
-        return user;
     }
 
     @Override
@@ -108,7 +104,6 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-        findById(user.getId()); // проверяем на наличие в базе
         String sql = "UPDATE USERS SET EMAIL = ?, LOGIN = ?, NAME = ?, BIRTHDAY = ? " +
                 "WHERE USER_ID = ?";
 

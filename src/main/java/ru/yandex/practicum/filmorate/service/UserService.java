@@ -18,7 +18,9 @@ public class UserService {
     }
 
     public void addFriend(int id, int friendId) {
-        userStorage.addFriend(id, friendId);
+        User user = findById(id);
+        User friend = findById(friendId);
+        userStorage.addFriend(user.getId(), friend.getId());
     }
 
     public Set<User> getFriends(int id) {
@@ -52,10 +54,13 @@ public class UserService {
     }
 
     public User deleteUser(int id) {
-        return userStorage.deleteUser(id);
+        User user = findById(id);
+        userStorage.deleteUser(user.getId());
+        return user;
     }
 
     public User updateUser(User user) {
+        findById(user.getId()); // проверяем на наличие в базе
         return userStorage.updateUser(user);
     }
 

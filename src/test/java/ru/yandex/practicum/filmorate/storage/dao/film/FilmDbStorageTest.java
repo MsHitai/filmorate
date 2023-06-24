@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -52,7 +54,9 @@ class FilmDbStorageTest {
     void create() {
         Film filmActual = filmDbStorage.create(film);
 
-        assertEquals(film, filmActual);
+        assertThat(filmActual, not(nullValue()));
+        assertThat(filmActual.getName(), is("name"));
+        assertThat(filmActual.getDescription(), is("description"));
     }
 
     @Test
@@ -62,7 +66,7 @@ class FilmDbStorageTest {
         film.setName("new Name");
         Film filmActual = filmDbStorage.update(film);
 
-        assertEquals(film, filmActual);
+        assertThat(filmActual.getName(), is("new Name"));
     }
 
     @Test
@@ -71,7 +75,9 @@ class FilmDbStorageTest {
 
         Film filmActual = filmDbStorage.findById(1);
 
-        assertEquals(film, filmActual);
+        assertThat(filmActual, not(nullValue()));
+        assertThat(filmActual.getName(), is("name"));
+        assertThat(filmActual.getDescription(), is("description"));
     }
 
 

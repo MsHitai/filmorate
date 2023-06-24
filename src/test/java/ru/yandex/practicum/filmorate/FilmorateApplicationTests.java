@@ -98,8 +98,4 @@ class FilmorateApplicationTests {
         assertThat(films.get(0), is(film));
     }
 
-    @Test
-    void contextLoads() {
-    }
-
 }

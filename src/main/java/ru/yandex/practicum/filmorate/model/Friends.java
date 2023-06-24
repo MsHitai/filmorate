@@ -7,9 +7,11 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-public class Like {
-    @NotNull
-    private long filmId;
+public class Friends {
     @NotNull
     private long userId;
+    @NotNull
+    private long friendId;
+    @NotNull
+    private boolean isMutual;
 }

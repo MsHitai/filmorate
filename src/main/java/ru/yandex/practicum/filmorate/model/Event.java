@@ -7,9 +7,13 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
-public class Like {
-    @NotNull
-    private long filmId;
+public class Event {
+    private long eventId;
+    private long timestamp;
     @NotNull
     private long userId;
+    private String eventType;
+    private String operation;
+    @NotNull
+    private long entityId;
 }

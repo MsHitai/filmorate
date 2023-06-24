@@ -1,6 +1,6 @@
 # java-filmorate
 Template repository for Filmorate project.
-![filmogram (1)](https://github.com/MsHitai/java-filmorate/assets/115479428/23337725-9179-43f2-abf1-25bf88c7cac9)
+![](src/main/resources/schema.png)
 
 <details>
   <summary>Получить информацию о фильме по id = 1 с названием его рейтинга</summary>

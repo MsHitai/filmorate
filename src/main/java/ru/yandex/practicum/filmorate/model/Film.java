@@ -1,65 +1,54 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import ru.yandex.practicum.filmorate.validators.ReleaseDate;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
+import ru.yandex.practicum.filmorate.validation.interfaces.ValidDate;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
-@Builder
+@Validated
 public class Film {
-
-    private int id;
-    @NotBlank(message = "Название не может быть пустым!")
+    private long id;
+    @NotBlank(message = "Название не должно быть пустым")
     private String name;
-    @Size(max = 200, message = "Максимум символов - 200")
+    @NotNull
+    @Size(max = 200, message = "Максимальная длина описания 200 символов")
     private String description;
-    @ReleaseDate(message = "Дата релиза неверна!")
+    @ValidDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate releaseDate;
-    @Positive(message = "Продолжительность не может быть отрицательной!")
+    @Positive(message = "Продолжительность фильма должна быть положительной")
     private int duration;
-
-    @JsonIgnore
-    private Set<Integer> likes = new HashSet<>();
-
+    @NotNull(message = "Должен быть указан рейтинг MPA")
+    private Mpa mpa;
+    private Set<Genre> genres = new HashSet<>();
     private int rate;
+    private Set<Director> directors = new HashSet<>();
 
-    private Rating mpa;
+    @Builder
+    public Film(long id,
+                String name,
+                String description,
+                LocalDate releaseDate,
+                int duration, Mpa mpa,
+                int rate) {
 
-    private Set<Genre> genres = new TreeSet<>(Comparator.comparingInt(Genre::getId));
-
-    @JsonCreator
-    public Film(@JsonProperty("id") int id, @JsonProperty("name") @NotBlank String name, @JsonProperty("description")
-    String description, @JsonProperty("releaseDate") LocalDate releaseDate, @JsonProperty("duration") int duration,
-                @JsonProperty("rate") int rate, @JsonProperty("mpa") Rating mpa,
-                @JsonProperty("genres") Set<Genre> genres) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.rate = rate;
         this.mpa = mpa;
-        this.genres = genres;
+        this.rate = rate;
     }
 
-    public Film(int id, String name, String description, LocalDate releaseDate, int duration, Set<Integer> likes,
-                int rate, Rating mpa, Set<Genre> genres) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-        this.likes = likes;
-        this.rate = rate;
-        this.mpa = mpa;
-        this.genres = genres;
-    }
 }

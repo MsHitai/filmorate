@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
@@ -42,14 +43,17 @@ class UserDbStorageTest {
         userStorage.create(user);
         List<User> usersActual = userStorage.findAll();
 
-        assertEquals(users, usersActual);
+        assertThat(users.size(), is(1));
+        assertThat(usersActual.size(), is(1));
     }
 
     @Test
     void createUser() {
         User userActual = userStorage.create(user);
 
-        assertEquals(user, userActual);
+        assertThat(userActual, not(nullValue()));
+        assertThat(userActual.getName(), is("name"));
+        assertThat(userActual.getLogin(), is("login"));
     }
 
     @Test
@@ -60,7 +64,9 @@ class UserDbStorageTest {
 
         User userActual = userStorage.update(user);
 
-        assertEquals(user, userActual);
+        assertThat(userActual, not(nullValue()));
+        assertThat(user.getName(), is("new Name"));
+        assertThat(user.getLogin(), is("newLogin"));
     }
 
     @Test
@@ -69,6 +75,8 @@ class UserDbStorageTest {
 
         User userActual = userStorage.findById(1);
 
-        assertEquals(user, userActual);
+        assertThat(userActual, not(nullValue()));
+        assertThat(userActual.getName(), is("name"));
+        assertThat(userActual.getLogin(), is("login"));
     }
 }

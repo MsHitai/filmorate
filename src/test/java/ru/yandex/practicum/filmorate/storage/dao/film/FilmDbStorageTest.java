@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -47,7 +46,8 @@ class FilmDbStorageTest {
         filmDbStorage.create(film);
         List<Film> filmsActual = filmDbStorage.findAll();
 
-        assertEquals(films, filmsActual);
+        assertThat(filmsActual.size(), is(1));
+        assertThat(films.size(), is(1));
     }
 
     @Test

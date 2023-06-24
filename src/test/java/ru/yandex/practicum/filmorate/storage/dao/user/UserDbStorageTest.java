@@ -28,7 +28,6 @@ class UserDbStorageTest {
     @BeforeEach
     public void beforeEach() {
         user = User.builder()
-                .id(1)
                 .login("login")
                 .name("name")
                 .email("email@email.ru")

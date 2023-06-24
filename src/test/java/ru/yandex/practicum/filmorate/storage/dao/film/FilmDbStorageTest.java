@@ -31,7 +31,6 @@ class FilmDbStorageTest {
     public void beforeEach() {
         mpa.setId(1);
         film = Film.builder()
-                .id(1)
                 .name("name")
                 .description("description")
                 .releaseDate(LocalDate.of(2000, 1, 11))

@@ -1,15 +1,14 @@
 package ru.yandex.practicum.filmorate.storage.dao.genre;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.storage.mapper.GenreMapper;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
-import org.springframework.jdbc.core.JdbcTemplate;
-import ru.yandex.practicum.filmorate.storage.mapper.GenreMapper;
 
 import static java.lang.String.format;
 

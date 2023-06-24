@@ -14,11 +14,12 @@ import ru.yandex.practicum.filmorate.storage.dao.friends.FriendsDao;
 import ru.yandex.practicum.filmorate.storage.dao.like.LikeDao;
 import ru.yandex.practicum.filmorate.storage.dao.ratingMpa.RatingMpaDao;
 import ru.yandex.practicum.filmorate.storage.dao.user.UserStorage;
-import static ru.yandex.practicum.filmorate.service.EventsService.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ru.yandex.practicum.filmorate.service.EventsService.*;
 
 @Slf4j
 @Service

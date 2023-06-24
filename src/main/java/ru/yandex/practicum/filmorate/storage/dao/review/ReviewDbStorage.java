@@ -67,29 +67,29 @@ public class ReviewDbStorage implements ReviewStorage {
 
     @Override
     public Review findById(long id) {
-            String sql = "SELECT * FROM REVIEWS WHERE ID = ?";
-            return jdbcTemplate.queryForObject(sql, this::mapRowToReview, id);
+        String sql = "SELECT * FROM REVIEWS WHERE ID = ?";
+        return jdbcTemplate.queryForObject(sql, this::mapRowToReview, id);
     }
 
     @Override
     public boolean addLike(Long id, Long userId) {
         String sql = "MERGE INTO REVIEW_LIKES AS R " +
-                     "USING (SELECT " + id + " AS REVIEW_ID, " + userId + " AS USER_ID) AS S ON R.REVIEW_ID = S.REVIEW_ID AND R.USER_ID = S.USER_ID " +
-                     "WHEN NOT MATCHED THEN " +
-                     "   INSERT VALUES(?, ?, 1) " +
-                     "WHEN MATCHED THEN " +
-                     "   UPDATE SET R.RATING = 1 ";
+                "USING (SELECT " + id + " AS REVIEW_ID, " + userId + " AS USER_ID) AS S ON R.REVIEW_ID = S.REVIEW_ID AND R.USER_ID = S.USER_ID " +
+                "WHEN NOT MATCHED THEN " +
+                "   INSERT VALUES(?, ?, 1) " +
+                "WHEN MATCHED THEN " +
+                "   UPDATE SET R.RATING = 1 ";
         return jdbcTemplate.update(sql, id, userId) > 0;
     }
 
     @Override
     public boolean addDislike(Long id, Long userId) {
         String sql = "MERGE INTO REVIEW_LIKES AS R " +
-                     "USING (SELECT " + id + " AS REVIEW_ID, " + userId + " AS USER_ID) AS S ON R.REVIEW_ID = S.REVIEW_ID AND R.USER_ID = S.USER_ID " +
-                     "WHEN NOT MATCHED THEN " +
-                     "   INSERT VALUES(?, ?, -1) " +
-                     "WHEN MATCHED THEN " +
-                     "   UPDATE SET R.RATING = -1 ";
+                "USING (SELECT " + id + " AS REVIEW_ID, " + userId + " AS USER_ID) AS S ON R.REVIEW_ID = S.REVIEW_ID AND R.USER_ID = S.USER_ID " +
+                "WHEN NOT MATCHED THEN " +
+                "   INSERT VALUES(?, ?, -1) " +
+                "WHEN MATCHED THEN " +
+                "   UPDATE SET R.RATING = -1 ";
         return jdbcTemplate.update(sql, id, userId) > 0;
     }
 

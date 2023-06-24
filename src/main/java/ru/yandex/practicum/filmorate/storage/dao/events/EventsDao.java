@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface EventsDao {
     List<Event> getUserEvents(long userId);
+
     void addEvent(long timestamp, long userId, String eventType, String operation, long entityId);
 }

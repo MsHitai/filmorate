@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.mapper;
 
-import org.springframework.jdbc.core.RowMapper;
 import lombok.NonNull;
+import org.springframework.jdbc.core.RowMapper;
 import ru.yandex.practicum.filmorate.model.Event;
 
 import java.sql.ResultSet;

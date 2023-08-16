@@ -1,5 +1,5 @@
 # java-filmorate
-Template repository for Filmorate project.
+Схема базы данных:
 ![filmogram (1)](https://github.com/MsHitai/java-filmorate/assets/115479428/23337725-9179-43f2-abf1-25bf88c7cac9)
 
 <details>
@@ -27,3 +27,7 @@ Template repository for Filmorate project.
 ```
 
 </details>  
+
+Возможности:
+- REST controllers - можно ставить лайки фильмам, сортировать фильмы по рейтингу, жанру, заводить друзей, смотреть их любимые фильмы.
+- Во время группового проекта были добавлены такие возможности, как поиск, отзывы, рекомендации, ленту событий. Ссылка на групповой проект: https://github.com/MsHitai/java-filmorate-1
